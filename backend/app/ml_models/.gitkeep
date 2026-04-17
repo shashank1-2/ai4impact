@@ -1,0 +1,5 @@
+# ML Models Directory
+# Trained models are saved here automatically at startup.
+# - pricer_model.pkl
+# - pricer_preprocessor.pkl
+# - ranker_model.pkl

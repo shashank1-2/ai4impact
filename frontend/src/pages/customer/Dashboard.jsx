@@ -5,8 +5,7 @@ import Spinner from '../../components/Spinner';
 import StatCard from '../../components/StatCard';
 import Badge from '../../components/Badge';
 import StarRating from '../../components/StarRating';
-import { formatRupee, statusColor, urgencyColor, complexityColor, categoryColor } from '../../utils';
-import { Briefcase, CheckCircle2, Clock, IndianRupee, Loader2, Search } from 'lucide-react';
+import { formatRupee, statusColor, bracketTag } from '../../utils';
 
 const CITIES = ['Bangalore', 'Mumbai', 'Delhi'];
 
@@ -67,90 +66,90 @@ export default function CustomerDashboard() {
   const spent = jobs.filter((j) => j.status === 'completed').reduce((s, j) => s + (j.estimated_price?.base || 0), 0);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900">Welcome, {user?.name || 'Customer'}</h1>
-      <p className="mt-1 text-sm text-gray-500">Find the perfect professional for your home needs</p>
+    <div className="mx-auto max-w-7xl px-6 py-10">
+      <h1 className="text-2xl font-bold font-mono text-[#1a1a1a]">Welcome, {user?.name || 'Customer'}</h1>
+      <p className="mt-2 text-sm font-mono text-[#6a6a62]">Find the perfect professional for your home needs</p>
 
       {/* Stats */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Total Jobs" value={totalJobs} icon={Briefcase} />
-        <StatCard label="Completed" value={completed} icon={CheckCircle2} />
-        <StatCard label="Active Bookings" value={active} icon={Clock} />
-        <StatCard label="Total Spent" value={formatRupee(spent)} icon={IndianRupee} />
+      <div className="mt-8 grid gap-px sm:grid-cols-2 lg:grid-cols-4 bg-[#e0e0d8]">
+        <StatCard label="Total Jobs" value={totalJobs} />
+        <StatCard label="Completed" value={completed} />
+        <StatCard label="Active Bookings" value={active} />
+        <StatCard label="Total Spent" value={formatRupee(spent)} />
       </div>
 
       {/* Analysis Form */}
-      <div className="mt-10 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-gray-900">Describe your problem</h2>
-        <p className="mt-1 text-sm text-gray-500">Our AI will analyze it and find the best workers for you</p>
+      <div className="mt-12 border border-[#e0e0d8] bg-[#fafaf8] p-8">
+        <h2 className="text-lg font-semibold font-mono text-[#1a1a1a]">Describe your problem</h2>
+        <p className="mt-1 text-sm font-mono text-[#6a6a62]">Our AI will analyze it and find the best workers for you</p>
 
         <textarea
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
           rows={4}
-          className="mt-4 w-full rounded-lg border border-gray-200 px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+          className="mt-6 w-full border border-[#e0e0d8] bg-transparent px-4 py-3 text-sm font-mono outline-none focus:border-[#1a5f5f]"
           placeholder="e.g. My bathroom tap has been dripping for 2 days and the water pressure is really low..."
+          style={{ borderBottom: '1px solid #c8c8c0', border: '1px solid #e0e0d8' }}
         />
 
-        <div className="mt-4 flex flex-wrap items-end gap-4">
+        <div className="mt-6 flex flex-wrap items-end gap-6">
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-gray-600">City</label>
-            <select value={city} onChange={(e) => setCity(e.target.value)} className="rounded-lg border border-gray-200 px-3 py-2 text-sm">
+            <label className="mb-2 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">City</label>
+            <select value={city} onChange={(e) => setCity(e.target.value)} className="py-2 text-sm font-mono">
               {CITIES.map((c) => <option key={c}>{c}</option>)}
             </select>
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-gray-600">Pincode</label>
-            <input value={pincode} onChange={(e) => setPincode(e.target.value)} className="w-28 rounded-lg border border-gray-200 px-3 py-2 text-sm" />
+            <label className="mb-2 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">Pincode</label>
+            <input value={pincode} onChange={(e) => setPincode(e.target.value)} className="w-28 py-2 text-sm font-mono" />
           </div>
           <button
             onClick={analyze}
             disabled={analyzing}
-            className="flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
+            className="flex items-center gap-2 bg-[#1a5f5f] px-6 py-2.5 text-sm font-mono font-semibold text-white hover:bg-[#144a4a] disabled:opacity-50 transition-colors"
           >
-            {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
-            Analyze Job
+            {analyzing ? '> analyzing...' : '> Analyze Job'}
           </button>
         </div>
       </div>
 
       {/* Results */}
       {result && (
-        <div className="mt-8 space-y-6">
+        <div className="mt-10 space-y-8">
           {/* Parsed Job */}
-          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-            <h3 className="mb-3 text-lg font-semibold">AI Analysis</h3>
-            <div className="flex flex-wrap gap-2 mb-3">
-              <Badge className={categoryColor(result.parsed_job.job_category)}>{result.parsed_job.job_category}</Badge>
-              <Badge className={urgencyColor(result.parsed_job.urgency)}>Urgency: {result.parsed_job.urgency}</Badge>
-              <Badge className={complexityColor(result.parsed_job.complexity)}>Complexity: {result.parsed_job.complexity}</Badge>
+          <div className="border border-[#e0e0d8] bg-[#fafaf8] p-8">
+            <h3 className="mb-4 text-lg font-semibold font-mono text-[#1a1a1a]">AI Analysis</h3>
+            <div className="flex flex-wrap gap-2 mb-4">
+              <Badge>{bracketTag(result.parsed_job.job_category)}</Badge>
+              <Badge>Urgency: {result.parsed_job.urgency}</Badge>
+              <Badge>Complexity: {result.parsed_job.complexity}</Badge>
             </div>
-            <p className="text-sm text-gray-700 mb-3">{result.parsed_job.job_summary}</p>
+            <p className="text-sm font-mono text-[#3a3a3a] mb-4">{result.parsed_job.job_summary}</p>
             <div>
-              <p className="text-xs font-medium text-gray-500 mb-1">Likely Causes:</p>
-              <ul className="list-disc pl-5 text-sm text-gray-600 space-y-0.5">
-                {result.parsed_job.likely_causes?.map((c, i) => <li key={i}>{c}</li>)}
+              <p className="text-xs font-mono font-medium text-[#6a6a62] mb-2">// Likely Causes:</p>
+              <ul className="list-none pl-0 text-sm font-mono text-[#3a3a3a] space-y-1">
+                {result.parsed_job.likely_causes?.map((c, i) => <li key={i}>— {c}</li>)}
               </ul>
             </div>
           </div>
 
           {/* Pricing */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-              <h3 className="mb-3 text-lg font-semibold">Estimated Price</h3>
-              <div className="flex items-end gap-4">
-                <div><p className="text-xs text-gray-500">Min</p><p className="text-lg font-medium text-gray-500">{formatRupee(result.estimated_price?.min)}</p></div>
-                <div><p className="text-xs text-gray-500">Base</p><p className="text-2xl font-bold text-indigo-600">{formatRupee(result.estimated_price?.base)}</p></div>
-                <div><p className="text-xs text-gray-500">Max</p><p className="text-lg font-medium text-gray-500">{formatRupee(result.estimated_price?.max)}</p></div>
+          <div className="grid gap-px sm:grid-cols-2 bg-[#e0e0d8]">
+            <div className="bg-[#fafaf8] p-8">
+              <h3 className="mb-4 text-lg font-semibold font-mono text-[#1a1a1a]">Estimated Price</h3>
+              <div className="flex items-end gap-6">
+                <div><p className="text-xs font-mono text-[#6a6a62] uppercase tracking-wider">Min</p><p className="text-lg font-mono text-[#6a6a62]">{formatRupee(result.estimated_price?.min)}</p></div>
+                <div><p className="text-xs font-mono text-[#6a6a62] uppercase tracking-wider">Base</p><p className="text-2xl font-bold font-mono text-[#1a5f5f]">{formatRupee(result.estimated_price?.base)}</p></div>
+                <div><p className="text-xs font-mono text-[#6a6a62] uppercase tracking-wider">Max</p><p className="text-lg font-mono text-[#6a6a62]">{formatRupee(result.estimated_price?.max)}</p></div>
               </div>
             </div>
-            <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-              <h3 className="mb-3 text-lg font-semibold">Recommended Materials</h3>
-              <div className="space-y-1.5 max-h-40 overflow-y-auto">
+            <div className="bg-[#fafaf8] p-8">
+              <h3 className="mb-4 text-lg font-semibold font-mono text-[#1a1a1a]">Recommended Materials</h3>
+              <div className="space-y-2 max-h-40 overflow-y-auto">
                 {result.materials_recommended?.map((m, i) => (
-                  <div key={i} className="flex items-center justify-between text-sm">
-                    <span className="text-gray-700">{m.material}</span>
-                    <span className="font-medium text-gray-900">{formatRupee(m.estimated_price_inr)}</span>
+                  <div key={i} className="flex items-center justify-between text-sm font-mono">
+                    <span className="text-[#3a3a3a]">{m.material}</span>
+                    <span className="font-medium text-[#1a1a1a]">{formatRupee(m.estimated_price_inr)}</span>
                   </div>
                 ))}
               </div>
@@ -159,42 +158,42 @@ export default function CustomerDashboard() {
 
           {/* Workers */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Matched Workers</h3>
+            <h3 className="mb-6 text-lg font-semibold font-mono text-[#1a1a1a]">Matched Workers</h3>
             {result.matched_workers?.length === 0 && (
-              <p className="text-sm text-gray-500">No workers matched. Try seeding the database via POST /admin/seed.</p>
+              <p className="text-sm font-mono text-[#6a6a62]">// No workers matched. Try seeding the database via POST /admin/seed.</p>
             )}
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3 bg-[#e0e0d8]">
               {result.matched_workers?.map((w) => (
-                <div key={w.worker_id} className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-gray-900">{w.name}</h4>
-                    <Badge className={statusColor(w.availability_status)}>{w.availability_status}</Badge>
+                <div key={w.worker_id} className="bg-[#fafaf8] p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-semibold font-mono text-[#1a1a1a]">{w.name}</h4>
+                    <span className="text-xs font-mono text-[#6a6a62] dot-indicator dot-{w.availability_status}">{w.availability_status}</span>
                   </div>
-                  <div className="flex flex-wrap gap-1 mb-2">
-                    {w.skills?.map((s) => <Badge key={s} className="bg-gray-100 text-gray-600">{s}</Badge>)}
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {w.skills?.map((s) => <Badge key={s}>{bracketTag(s)}</Badge>)}
                   </div>
-                  <p className="text-xs text-gray-500 line-clamp-2 mb-3">{w.specialty_description}</p>
-                  <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 mb-3">
+                  <p className="text-xs font-mono text-[#6a6a62] line-clamp-2 mb-4">{w.specialty_description}</p>
+                  <div className="grid grid-cols-2 gap-2 text-xs font-mono text-[#3a3a3a] mb-4">
                     <span>{w.experience_years} yrs exp</span>
                     <span className="text-right">{formatRupee(w.hourly_rate)}/hr</span>
                     <div className="flex items-center gap-1"><StarRating value={Math.round(w.avg_rating)} size="sm" /><span>({w.rating_count})</span></div>
                     <span className="text-right">Score: {(w.final_score * 100).toFixed(0)}%</span>
                   </div>
                   {/* Similarity bar */}
-                  <div className="mb-3">
-                    <div className="flex justify-between text-xs text-gray-500 mb-0.5">
+                  <div className="mb-4">
+                    <div className="flex justify-between text-xs font-mono text-[#6a6a62] mb-1">
                       <span>Similarity</span><span>{(w.similarity_score * 100).toFixed(1)}%</span>
                     </div>
-                    <div className="h-1.5 rounded-full bg-gray-100">
-                      <div className="h-1.5 rounded-full bg-indigo-500" style={{ width: `${Math.min(w.similarity_score * 100, 100)}%` }} />
+                    <div className="h-1 bg-[#e0e0d8]">
+                      <div className="h-1 bg-[#1a5f5f]" style={{ width: `${Math.min(w.similarity_score * 100, 100)}%` }} />
                     </div>
                   </div>
                   <button
                     onClick={() => selectWorker(w.worker_id)}
                     disabled={selectingWorker === w.worker_id}
-                    className="w-full rounded-lg bg-indigo-600 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
+                    className="w-full bg-[#1a5f5f] py-2 text-xs font-mono font-semibold text-white hover:bg-[#144a4a] disabled:opacity-50 transition-colors"
                   >
-                    {selectingWorker === w.worker_id ? 'Selecting…' : 'Select Worker'}
+                    {selectingWorker === w.worker_id ? '> selecting...' : '> Select Worker'}
                   </button>
                 </div>
               ))}

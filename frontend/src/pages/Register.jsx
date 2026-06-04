@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api';
 import toast from 'react-hot-toast';
-import { Zap, Loader2, User, Wrench } from 'lucide-react';
 
 const CITIES = ['Bangalore', 'Mumbai', 'Delhi'];
 
@@ -50,86 +49,83 @@ export default function Register() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
+    <div className="flex min-h-screen items-center justify-center bg-[#f5f5f0] px-4 py-12">
       <div className="w-full max-w-lg">
-        <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600">
-            <Zap className="h-6 w-6 text-white" />
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900">Create your account</h1>
-          <p className="mt-1 text-sm text-gray-500">Join SkillBridge today</p>
+        <div className="mb-10 text-center">
+          <div className="font-mono text-sm text-[#1a5f5f] mb-3">{'>_'}</div>
+          <h1 className="text-2xl font-bold font-mono text-[#1a1a1a]">Create your account</h1>
+          <p className="mt-2 text-sm font-mono text-[#6a6a62]">Join SkillBridge today</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
+        <form onSubmit={handleSubmit} className="border border-[#e0e0d8] bg-[#fafaf8] p-8">
           {/* Role selector */}
-          <div className="mb-6">
-            <label className="mb-2 block text-sm font-medium text-gray-700">I am a…</label>
-            <div className="grid grid-cols-2 gap-3">
+          <div className="mb-8">
+            <label className="mb-3 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">I am a…</label>
+            <div className="grid grid-cols-2 gap-4">
               {[
-                { val: 'customer', label: 'Customer', desc: 'I need services', Icon: User },
-                { val: 'worker', label: 'Worker', desc: 'I provide services', Icon: Wrench },
-              ].map(({ val, label, desc, Icon }) => (
+                { val: 'customer', label: 'Customer', desc: 'I need services' },
+                { val: 'worker', label: 'Worker', desc: 'I provide services' },
+              ].map(({ val, label, desc }) => (
                 <button
                   key={val}
                   type="button"
                   onClick={() => set('role', val)}
-                  className={`flex flex-col items-center gap-1 rounded-xl border-2 p-4 text-center transition-all ${
+                  className={`flex flex-col items-center gap-1 border-2 p-4 text-center font-mono transition-all ${
                     form.role === val
-                      ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-[#1a5f5f] text-[#1a5f5f]'
+                      : 'border-[#e0e0d8] text-[#6a6a62] hover:border-[#c8c8c0]'
                   }`}
                 >
-                  <Icon className="h-6 w-6" />
                   <span className="text-sm font-semibold">{label}</span>
-                  <span className="text-xs text-gray-500">{desc}</span>
+                  <span className="text-xs text-[#8a8a82]">{desc}</span>
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2">
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Name</label>
-              <input value={form.name} onChange={(e) => set('name', e.target.value)} className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" placeholder="Your name" />
-              {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
+              <label className="mb-2 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">Name</label>
+              <input value={form.name} onChange={(e) => set('name', e.target.value)} className="w-full py-2 text-sm font-mono" placeholder="Your name" />
+              {errors.name && <p className="mt-1 text-xs font-mono text-[#8a2d2d]">{errors.name}</p>}
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" value={form.email} onChange={(e) => set('email', e.target.value)} className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" placeholder="you@example.com" />
-              {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
+              <label className="mb-2 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">Email</label>
+              <input type="email" value={form.email} onChange={(e) => set('email', e.target.value)} className="w-full py-2 text-sm font-mono" placeholder="you@example.com" />
+              {errors.email && <p className="mt-1 text-xs font-mono text-[#8a2d2d]">{errors.email}</p>}
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Password</label>
-              <input type="password" value={form.password} onChange={(e) => set('password', e.target.value)} className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" placeholder="••••••••" />
-              {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
+              <label className="mb-2 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">Password</label>
+              <input type="password" value={form.password} onChange={(e) => set('password', e.target.value)} className="w-full py-2 text-sm font-mono" placeholder="••••••••" />
+              {errors.password && <p className="mt-1 text-xs font-mono text-[#8a2d2d]">{errors.password}</p>}
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Phone</label>
-              <input value={form.phone} onChange={(e) => set('phone', e.target.value)} className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" placeholder="9876543210" />
-              {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone}</p>}
+              <label className="mb-2 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">Phone</label>
+              <input value={form.phone} onChange={(e) => set('phone', e.target.value)} className="w-full py-2 text-sm font-mono" placeholder="9876543210" />
+              {errors.phone && <p className="mt-1 text-xs font-mono text-[#8a2d2d]">{errors.phone}</p>}
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">City</label>
-              <select value={form.city} onChange={(e) => set('city', e.target.value)} className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
+              <label className="mb-2 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">City</label>
+              <select value={form.city} onChange={(e) => set('city', e.target.value)} className="w-full py-2 text-sm font-mono">
                 {CITIES.map((c) => <option key={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Pincode</label>
-              <input value={form.pincode} onChange={(e) => set('pincode', e.target.value)} className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" placeholder="560001" />
-              {errors.pincode && <p className="mt-1 text-xs text-red-500">{errors.pincode}</p>}
+              <label className="mb-2 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">Pincode</label>
+              <input value={form.pincode} onChange={(e) => set('pincode', e.target.value)} className="w-full py-2 text-sm font-mono" placeholder="560001" />
+              {errors.pincode && <p className="mt-1 text-xs font-mono text-[#8a2d2d]">{errors.pincode}</p>}
             </div>
           </div>
 
-          <button disabled={loading} className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50">
-            {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            Create Account
+          <button disabled={loading} className="mt-8 flex w-full items-center justify-center gap-2 bg-[#1a5f5f] py-3 text-sm font-mono font-semibold text-white hover:bg-[#144a4a] disabled:opacity-50 transition-colors">
+            {loading && <span className="cursor-blink"></span>}
+            {loading ? 'Creating account' : 'Create Account'}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-gray-500">
+        <p className="mt-6 text-center text-sm font-mono text-[#6a6a62]">
           Already have an account?{' '}
-          <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">Sign in</Link>
+          <Link to="/login" className="font-medium text-[#1a5f5f] hover:text-[#144a4a] border-b border-[#1a5f5f]">Sign in</Link>
         </p>
       </div>
     </div>

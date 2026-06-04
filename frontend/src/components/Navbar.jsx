@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Zap } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const customerLinks = [
   { to: '/customer/dashboard', label: 'Dashboard' },
@@ -37,23 +37,23 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-        <Link to={role === 'worker' ? '/worker/dashboard' : '/customer/dashboard'} className="flex items-center gap-2">
-          <Zap className="h-6 w-6 text-indigo-600" />
-          <span className="text-xl font-bold text-gray-900">SkillBridge</span>
+    <nav className="sticky top-0 z-50 border-b border-[#e0e0d8] bg-[#f5f5f0]">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <Link to={role === 'worker' ? '/worker/dashboard' : '/customer/dashboard'} className="flex items-center gap-1">
+          <span className="text-[#1a5f5f] font-mono font-bold text-sm">{'>_'}</span>
+          <span className="text-lg font-bold font-mono text-[#1a1a1a]">SkillBridge</span>
         </Link>
 
         {/* Desktop */}
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-6 md:flex">
           {links.map((l) => (
             <Link
               key={l.to}
               to={l.to}
-              className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              className={`font-mono text-sm transition-colors py-1 ${
                 location.pathname === l.to
-                  ? 'bg-indigo-50 text-indigo-700'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  ? 'text-[#1a1a1a] font-semibold border-b-2 border-[#1a5f5f]'
+                  : 'text-[#6a6a62] hover:text-[#1a1a1a]'
               }`}
             >
               {l.label}
@@ -61,36 +61,38 @@ export default function Navbar() {
           ))}
           <button
             onClick={logout}
-            className="ml-2 rounded-lg bg-gray-100 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200"
+            className="font-mono text-sm text-[#6a6a62] hover:text-[#1a1a1a] border border-[#c8c8c0] px-3 py-1.5 transition-colors hover:border-[#1a1a1a]"
           >
             Logout
           </button>
         </div>
 
         {/* Mobile toggle */}
-        <button className="md:hidden" onClick={() => setOpen(!open)}>
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        <button className="md:hidden text-[#1a1a1a]" onClick={() => setOpen(!open)}>
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-gray-100 bg-white px-4 pb-4 md:hidden">
+        <div className="border-t border-[#e0e0d8] bg-[#f5f5f0] px-6 pb-4 md:hidden">
           {links.map((l) => (
             <Link
               key={l.to}
               to={l.to}
               onClick={() => setOpen(false)}
-              className={`block rounded-lg px-3 py-2.5 text-sm font-medium ${
-                location.pathname === l.to ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600'
+              className={`block py-2.5 font-mono text-sm ${
+                location.pathname === l.to
+                  ? 'text-[#1a1a1a] font-semibold'
+                  : 'text-[#6a6a62]'
               }`}
             >
-              {l.label}
+              {location.pathname === l.to ? '> ' : '  '}{l.label}
             </Link>
           ))}
           <button
             onClick={logout}
-            className="mt-2 w-full rounded-lg bg-gray-100 px-3 py-2.5 text-left text-sm font-medium text-gray-700"
+            className="mt-2 w-full border border-[#c8c8c0] px-3 py-2 text-left font-mono text-sm text-[#6a6a62] hover:text-[#1a1a1a]"
           >
             Logout
           </button>

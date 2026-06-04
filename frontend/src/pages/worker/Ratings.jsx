@@ -30,28 +30,28 @@ export default function WorkerRatings() {
   if (loading) return <Spinner />;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900">My Ratings</h1>
+    <div className="mx-auto max-w-3xl px-6 py-10">
+      <h1 className="text-2xl font-bold font-mono text-[#1a1a1a]">My Ratings</h1>
 
       {/* Average */}
-      <div className="mt-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm text-center">
+      <div className="mt-8 border border-[#e0e0d8] bg-[#fafaf8] p-10 text-center">
         <StarRating value={Math.round(avg)} size="lg" />
-        <p className="text-3xl font-bold text-gray-900 mt-2">{avg.toFixed(1)}</p>
-        <p className="text-sm text-gray-500">{ratings.length} review(s)</p>
+        <p className="text-3xl font-bold font-mono text-[#1a1a1a] mt-3">{avg.toFixed(1)}</p>
+        <p className="text-sm font-mono text-[#6a6a62]">{ratings.length} review(s)</p>
       </div>
 
       {/* Reviews */}
       {ratings.length === 0 ? (
         <EmptyState message="No reviews yet" sub="Complete jobs to receive ratings" />
       ) : (
-        <div className="mt-6 space-y-3">
+        <div className="mt-8 space-y-px bg-[#e0e0d8]">
           {ratings.map((r, i) => (
-            <div key={i} className="rounded-xl border border-gray-100 bg-white p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
+            <div key={i} className="bg-[#fafaf8] p-6">
+              <div className="flex items-center justify-between mb-3">
                 <StarRating value={r.rating} size="sm" />
-                <span className="text-xs text-gray-400">{formatDate(r.created_at)}</span>
+                <span className="text-xs font-mono text-[#8a8a82]">{formatDate(r.created_at)}</span>
               </div>
-              {r.review_text && <p className="text-sm text-gray-700">{r.review_text}</p>}
+              {r.review_text && <p className="text-sm font-mono text-[#3a3a3a]">{r.review_text}</p>}
             </div>
           ))}
         </div>

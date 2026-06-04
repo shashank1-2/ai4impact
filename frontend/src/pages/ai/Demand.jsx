@@ -35,21 +35,21 @@ export default function DemandForecast() {
   const avgDemand = days.length ? Math.round(days.reduce((s, d) => s + d.predicted_demand, 0) / days.length) : 0;
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900">Demand Forecast</h1>
-      <p className="mt-1 text-sm text-gray-500">7-day predicted service demand</p>
+    <div className="mx-auto max-w-4xl px-6 py-10">
+      <h1 className="text-2xl font-bold font-mono text-[#1a1a1a]">Demand Forecast</h1>
+      <p className="mt-2 text-sm font-mono text-[#6a6a62]">7-day predicted service demand</p>
 
       {/* Selectors */}
-      <div className="mt-6 flex flex-wrap gap-4">
+      <div className="mt-8 flex flex-wrap gap-6">
         <div>
-          <label className="mb-1.5 block text-xs font-medium text-gray-600">City</label>
-          <select value={city} onChange={(e) => setCity(e.target.value)} className="rounded-lg border border-gray-200 px-3 py-2 text-sm">
+          <label className="mb-2 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">City</label>
+          <select value={city} onChange={(e) => setCity(e.target.value)} className="py-2 text-sm font-mono">
             {CITIES.map((c) => <option key={c}>{c}</option>)}
           </select>
         </div>
         <div>
-          <label className="mb-1.5 block text-xs font-medium text-gray-600">Category</label>
-          <select value={category} onChange={(e) => setCategory(e.target.value)} className="rounded-lg border border-gray-200 px-3 py-2 text-sm">
+          <label className="mb-2 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">Category</label>
+          <select value={category} onChange={(e) => setCategory(e.target.value)} className="py-2 text-sm font-mono">
             {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
           </select>
         </div>
@@ -58,27 +58,27 @@ export default function DemandForecast() {
       {loading ? <Spinner /> : forecast && (
         <>
           {/* Chart */}
-          <div className="mt-6 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+          <div className="mt-8 border border-[#e0e0d8] bg-[#fafaf8] p-8">
+            <h2 className="text-lg font-semibold font-mono text-[#1a1a1a] mb-6">
               {city} — <span className="capitalize">{category}</span>
             </h2>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                <XAxis dataKey="date" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0d8" />
+                <XAxis dataKey="date" tick={{ fontSize: 11, fontFamily: '"JetBrains Mono", monospace' }} />
+                <YAxis tick={{ fontSize: 11, fontFamily: '"JetBrains Mono", monospace' }} />
                 <Tooltip
-                  contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0' }}
+                  contentStyle={{ border: '1px solid #e0e0d8', borderRadius: '2px', fontFamily: '"JetBrains Mono", monospace', fontSize: '12px' }}
                   formatter={(v) => [`${v} jobs`, 'Predicted Demand']}
                 />
-                <Line type="monotone" dataKey="demand" stroke="#6366f1" strokeWidth={2.5} dot={{ fill: '#6366f1', r: 4 }} />
+                <Line type="monotone" dataKey="demand" stroke="#1a5f5f" strokeWidth={2.5} dot={{ fill: '#1a5f5f', r: 4, strokeWidth: 0 }} />
                 {peak && (
                   <ReferenceDot
                     x={peak.date.slice(5)}
                     y={peak.predicted_demand}
                     r={8}
-                    fill="#ef4444"
-                    stroke="#fff"
+                    fill="#8a2d2d"
+                    stroke="#fafaf8"
                     strokeWidth={2}
                   />
                 )}
@@ -87,9 +87,9 @@ export default function DemandForecast() {
           </div>
 
           {/* Summary */}
-          <div className="mt-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-            <h3 className="font-semibold text-gray-900 mb-2">Summary</h3>
-            <p className="text-sm text-gray-700">
+          <div className="mt-4 border border-[#e0e0d8] bg-[#fafaf8] p-8">
+            <h3 className="font-semibold font-mono text-[#1a1a1a] mb-3">Summary</h3>
+            <p className="text-sm font-mono text-[#3a3a3a]">
               Over the next 7 days, <span className="font-semibold capitalize">{category}</span> services in{' '}
               <span className="font-semibold">{city}</span> are expected to see an average demand of{' '}
               <span className="font-semibold">{avgDemand} jobs/day</span>.
@@ -98,12 +98,9 @@ export default function DemandForecast() {
                 <span className="font-semibold">{peak.date}</span>.</>
               )}
             </p>
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap gap-2">
               {days.map((d) => (
-                <Badge
-                  key={d.date}
-                  className={d.trend === 'rising' ? 'bg-green-100 text-green-700' : d.trend === 'falling' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'}
-                >
+                <Badge key={d.date}>
                   {d.date.slice(5)}: {d.trend}
                 </Badge>
               ))}

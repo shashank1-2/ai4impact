@@ -20,20 +20,13 @@ async def analyze_job(request: JobAnalyzeRequest, current_user=Depends(get_optio
     Does NOT require auth (anonymous allowed for demo).
     """
     try:
+        customer_id = current_user["id"] if current_user else None
+        
         result = await job_service.analyze_job(
             raw_description=request.raw_description,
             location=request.location.model_dump(),
+            customer_id=customer_id,
         )
-
-        # If user is authenticated, update the job with customer_id
-        if current_user:
-            from app.database import get_db
-            from bson import ObjectId
-            db = get_db()
-            await db.jobs.update_one(
-                {"_id": ObjectId(result["job_id"])},
-                {"$set": {"customer_id": current_user["id"]}}
-            )
 
         return _format_response(True, result, "Job analyzed successfully with AI pipeline")
 

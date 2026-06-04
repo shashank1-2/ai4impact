@@ -53,9 +53,17 @@ export default function App() {
       <Toaster
         position="bottom-right"
         toastOptions={{
-          style: { fontFamily: 'Inter, sans-serif', fontSize: '14px' },
-          success: { style: { background: '#ecfdf5', color: '#065f46', border: '1px solid #a7f3d0' } },
-          error: { style: { background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca' } },
+          style: {
+            fontFamily: '"JetBrains Mono", "Courier New", monospace',
+            fontSize: '13px',
+            background: '#fafaf8',
+            color: '#1a1a1a',
+            border: '1px solid #e0e0d8',
+            borderRadius: '2px',
+            boxShadow: 'none',
+          },
+          success: { style: { borderLeft: '3px solid #1a5f5f' } },
+          error: { style: { borderLeft: '3px solid #8a2d2d' } },
         }}
       />
       <Routes>

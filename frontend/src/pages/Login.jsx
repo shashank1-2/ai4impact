@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api';
 import toast from 'react-hot-toast';
-import { Zap, Loader2 } from 'lucide-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -35,51 +34,49 @@ export default function Login() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#f5f5f0] px-4">
       <div className="w-full max-w-md">
-        <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600">
-            <Zap className="h-6 w-6 text-white" />
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
-          <p className="mt-1 text-sm text-gray-500">Sign in to your SkillBridge account</p>
+        <div className="mb-10 text-center">
+          <div className="font-mono text-sm text-[#1a5f5f] mb-3">{'>_'}</div>
+          <h1 className="text-2xl font-bold font-mono text-[#1a1a1a]">Welcome back</h1>
+          <p className="mt-2 text-sm font-mono text-[#6a6a62]">Sign in to your SkillBridge account</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
-          <div className="mb-5">
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
+        <form onSubmit={handleSubmit} className="border border-[#e0e0d8] bg-[#fafaf8] p-8">
+          <div className="mb-6">
+            <label className="mb-2 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+              className="w-full py-2 text-sm font-mono"
               placeholder="you@example.com"
             />
-            {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
+            {errors.email && <p className="mt-1 text-xs font-mono text-[#8a2d2d]">{errors.email}</p>}
           </div>
-          <div className="mb-6">
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Password</label>
+          <div className="mb-8">
+            <label className="mb-2 block text-xs font-mono font-medium uppercase tracking-wider text-[#6a6a62]">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+              className="w-full py-2 text-sm font-mono"
               placeholder="••••••••"
             />
-            {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
+            {errors.password && <p className="mt-1 text-xs font-mono text-[#8a2d2d]">{errors.password}</p>}
           </div>
           <button
             disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 bg-[#1a5f5f] py-3 text-sm font-mono font-semibold text-white hover:bg-[#144a4a] disabled:opacity-50 transition-colors"
           >
-            {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            Sign In
+            {loading && <span className="cursor-blink"></span>}
+            {loading ? 'Signing in' : 'Sign In'}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-gray-500">
+        <p className="mt-6 text-center text-sm font-mono text-[#6a6a62]">
           Don't have an account?{' '}
-          <Link to="/register" className="font-medium text-indigo-600 hover:text-indigo-500">Register</Link>
+          <Link to="/register" className="font-medium text-[#1a5f5f] hover:text-[#144a4a] border-b border-[#1a5f5f]">Register</Link>
         </p>
       </div>
     </div>

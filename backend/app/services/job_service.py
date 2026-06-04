@@ -41,7 +41,7 @@ def _get_time_of_day() -> str:
         return "night"
 
 
-async def analyze_job(raw_description: str, location: dict) -> dict:
+async def analyze_job(raw_description: str, location: dict, customer_id: str = None) -> dict:
     """
     THE CORE FUNCTION — Runs the full AI pipeline:
     1. LLM Parser → structured job info
@@ -186,7 +186,7 @@ async def analyze_job(raw_description: str, location: dict) -> dict:
 
     # Save job to database
     job_doc = {
-        "customer_id": None,  # Will be set if user is authenticated
+        "customer_id": customer_id,
         "raw_description": raw_description,
         "parsed_job": parsed_job,
         "matched_workers": [
@@ -349,7 +349,7 @@ async def get_job(job_id: str) -> Optional[dict]:
 
 
 async def get_user_jobs(user_id: str, role: str = "customer") -> list:
-    """Get all jobs for a user (customer or worker)."""
+    """Get all jobs for a user (customer or worker), with booking data attached."""
     db = get_db()
 
     if role == "worker":
@@ -360,5 +360,14 @@ async def get_user_jobs(user_id: str, role: str = "customer") -> list:
     jobs = await cursor.to_list(length=100)
     for job in jobs:
         job["id"] = str(job["_id"])
+        job_id = job["id"]
         job.pop("_id", None)
+
+        # Attach booking data so the frontend can reference j.booking.id
+        booking = await db.bookings.find_one({"job_id": job_id})
+        if booking:
+            booking["id"] = str(booking["_id"])
+            booking.pop("_id", None)
+            job["booking"] = booking
+
     return jobs
